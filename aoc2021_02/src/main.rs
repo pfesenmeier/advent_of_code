@@ -10,23 +10,20 @@ fn main() {
         elvin_sub.dive(step);
     }
 
-    assert_eq!(elvin_sub.position.x, 15);
-    assert_eq!(elvin_sub.position.y, 60);
-
-    let result = elvin_sub.position.x * elvin_sub.position.y;
-    assert_eq!(result, 900);
-    println!("{}", result);
+    let ( dist, depth ) = elvin_sub.where_am_i();
+    println!("{}", dist * depth);
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 struct Position {
     x: i32,
     y: i32,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 struct Submarine {
     position: Position,
+    aim: i32,
 }
 
 #[derive(Debug, PartialEq)]
@@ -38,16 +35,22 @@ pub enum Step {
 
 impl Submarine {
     fn new() -> Submarine {
-        Submarine {
-            position: Position { x: 0, y: 0 },
-        }
+        Submarine::default()
     }
+
     fn dive(&mut self, step: Step) {
         match step {
-            Step::Up(dist) => self.position.y -= dist,
-            Step::Down(dist) => self.position.y += dist,
-            Step::Forward(dist) => self.position.x += dist,
+            Step::Up(dist) => self.aim -= dist,
+            Step::Down(dist) => self.aim += dist,
+            Step::Forward(dist) => {
+                self.position.x += dist;
+                self.position.y += self.aim * dist
+            },
         }
+    }
+
+    fn where_am_i(&self) -> (i32,i32) {
+        (self.position.x, self.position.y)
     }
 }
 
