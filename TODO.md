@@ -1,6 +1,7 @@
-[ ] Itertools
+[ ] Serde
+[x] Itertools
 [ ] Peg / nom
-[ ] Regex
+[x] Regex
 [ ] Macros
 [ ] Implementing traits: debug, clone trait?
 [ ] Generic impl blocks
