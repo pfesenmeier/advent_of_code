@@ -34,7 +34,7 @@ pub enum Step {
 }
 
 impl Submarine {
-    fn new() -> Submarine {
+    fn new() -> Self {
         Submarine::default()
     }
 

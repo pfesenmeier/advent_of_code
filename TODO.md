@@ -8,3 +8,6 @@
 [ ] Generic impl blocks
 [ ] derive-more
 [ ] impl add between two types (see pt 12)
+
+[ ] show hidden characters in vim...
+[ ] get clip to use \n 
