@@ -1,4 +1,4 @@
-pub    fn find_gamma_epsilon(input: Vec<&str>) -> (usize, usize) {
+pub    fn find_gamma_epsilon(input: &Vec<&str>) -> (usize, usize) {
         let num_entries = input.len();
         let line_length: usize = input[0].len();
         let mut num_zeros_each_column: Vec<usize> = Vec::with_capacity(line_length);
