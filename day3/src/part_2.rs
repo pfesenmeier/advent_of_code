@@ -14,8 +14,8 @@ fn find_rating(input: &Vec<&str>, compare_fn: &ElistCmpFn) -> usize {
         .enumerate()
         .map(|(pos, line)| {
             (
-                pos.clone(),
-                line.to_string().chars().rev().collect::<String>(),
+                pos,
+                line.chars().rev().collect::<String>(),
             )
         })
         .collect::<Elist>();
