@@ -1,3 +1,6 @@
+use std::fmt::Display;
+use std::fmt::Formatter;
+
 pub struct BingoBoard<Stage = Loading> {
     stage: std::marker::PhantomData<Stage>,
     board: [[(u8, bool); 5]; 5],
@@ -42,8 +45,44 @@ impl BingoBoard<Loading> {
 }
 
 impl BingoBoard<Ready> {
-    pub fn set_square(&mut self, value: u8) { todo!{} }
-    pub fn check_bingo(&self) -> bool { todo!{} }
-    fn get_unmarked(&self) -> Vec<u8> { todo!{} }
-    pub fn sum_unmarked(&self) -> u32 { todo!{} }
+    pub fn set_square(&mut self, value: u8) {
+        todo! {}
+    }
+    pub fn check_bingo(&self) -> bool {
+        todo! {}
+    }
+    fn check_bingo_rows(&self) -> bool {
+        todo! {}
+    }
+    fn check_bingo_columns(&self) -> bool {
+        todo! {}
+    }
+    fn get_unmarked(&self) -> Vec<u8> {
+        todo! {}
+    }
+    pub fn sum_unmarked(&self) -> u32 {
+        todo! {}
+    }
+}
+
+impl<T> Display for BingoBoard<T> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
+        let mut output = "".to_string();
+        for row in self.board {
+            let mut tile: String = "".to_string();
+            for column in row {
+                let num = match column.0 {
+                    0..=9 => " ".to_owned() + &column.0.to_string(),
+                    _ => column.0.to_string(),
+                };
+                tile.push_str(&num);
+                tile.push(' ');
+            }
+            tile.pop();
+            output.push_str(&tile);
+            output.push('\n');
+        }
+        output.pop();
+        write!(f, "{}", output)
+    }
 }
