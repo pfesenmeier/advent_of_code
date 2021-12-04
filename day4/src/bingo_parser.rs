@@ -11,11 +11,9 @@ pub fn bingo_parser(input: &str) -> (Vec<u32>, Vec<BingoBoard<Ready>>) {
    while lines.peek() != None {
        let rows: Vec<Vec<u8>> = lines
         .by_ref()
-        .inspect(|x| println!("rows: {}", x))
         .take_while(|line| *line != "")
         .map(|row| row.split_whitespace().map(|column| str::parse::<u8>(column).unwrap()).collect())
         .collect();
-       dbg!(&rows);
 
        let mut board = BingoBoard::new();
        for row in rows {
@@ -27,13 +25,19 @@ pub fn bingo_parser(input: &str) -> (Vec<u32>, Vec<BingoBoard<Ready>>) {
 }
 
 #[test]
-fn test_fn() {
-    let (rounds, boards) = bingo_parser(include_str!("parse_input.txt"));
+fn test_rounds_parsing() {
+    let (rounds, _) = bingo_parser(include_str!("parse_input.txt"));
     assert_eq!(rounds, vec![7,4,9,5,11,17]);
+}
+
+#[test]
+fn test_fn() {
+    let (_, boards) = bingo_parser(include_str!("sample_input.txt"));
+    // assert_eq!(rounds, vec![7,4,9,5,11,17]);
     assert_eq!(format!("{}", boards[0]), 
-r"22 13 17 11  0
- 8  2 23  4 24
-21  9 14 16  7
- 6 10  3 18  5
- 1 12 20 15 19");
+r"22[ ] 13[ ] 17[ ] 11[ ]  0[ ]
+ 8[ ]  2[ ] 23[ ]  4[ ] 24[ ]
+21[ ]  9[ ] 14[ ] 16[ ]  7[ ]
+ 6[ ] 10[ ]  3[ ] 18[ ]  5[ ]
+ 1[ ] 12[ ] 20[ ] 15[ ] 19[ ]");
 }
