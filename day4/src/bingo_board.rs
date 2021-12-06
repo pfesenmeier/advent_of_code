@@ -1,4 +1,3 @@
-use crate::bingo_parser::bingo_parser;
 use std::fmt::Display;
 use std::fmt::Formatter;
 

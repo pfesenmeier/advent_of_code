@@ -3,8 +3,11 @@ mod bingo_board;
 
 use bingo_parser::bingo_parser;
 
-
 fn main() {
+    part_1();
+} 
+
+fn part_1() {
     let (rounds, mut boards) = bingo_parser(include_str!("input.txt"));
 
     for round in rounds {
@@ -13,15 +16,10 @@ fn main() {
             if board.check_bingo() {
                 let sum_unmarked = board.sum_unmarked();
                 let answer = sum_unmarked * round;
-                println!("{}", answer);
+                println!("Part 1 answer: {}", answer);
                 return;
             }
         }
     }
-
-    for board in boards {
-        println!("{}", board);
-    }
-    ()
 }
 
