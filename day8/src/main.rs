@@ -26,6 +26,18 @@ fn part_1(input: &str) -> usize {
 }
 
 fn part_2(input: &str) -> usize {
+    //let input = input_parser(input);
+    //input
+    //    .into_iter()
+    //    .map(|(ten_unique_flashes, final_four)| {
+    //        let obvious_digits = ten_unique_flashes
+    //            .into_iter()
+    //            .filter(|digit| digit.get_display() != None)
+    //            .collect::<Vec<AnalogDigit>>();
+
+     //   })
+     //   .flatten()
+     //   .count()
     todo!()
 }
 
