@@ -1,10 +1,12 @@
 // iterate over 
 // NumberSetBuilder
+// One: Option<One>
+// ...
 // fn  (seven, one, four, eight, Vec<Vec<char>>) get_obvious()
 // fn get_three(one, seven, Vec<char>) -> (three, Vec<Vec<char>>)
 // fn get_six_nine(one, Vec<char>) -> (six, nine, Vec<char>)
 // fn get_two_five(nine, Vec<Vec<char>) -> (two, five, Vec<Vec<char>>)
-// displaybuilder::new(NumberSet)
+// displayBuilder::new(NumberSet{ self.One.unwrap() })
 // fn display.set_top(one, seven) 
 // fn disploy.set_middle(zero, eight)
 // fn display.set_top_right(five, nine)
@@ -12,6 +14,15 @@
 // fn display.set_bottom_right(two, three)
 // fn display.set_bottom(four, nine) // must be after set top
 // fn display.set_top_left()
+//
+// display.read_input()
+// input_reader()
+// is_one(Vec<char>)
+// i.contains(self.top_right), etc..
+// is_two()
+// is_three()
+// is_four()
+// ..
 // display.show(input: Vec<char>) -> u8 {
 // }
 // fn get_all
@@ -27,7 +38,7 @@
 
 use std::char;
 
-pub enum DisplayPositions {
+struct DisplayBuilder {
     Top,
     TopLeft,
     TopRight,
