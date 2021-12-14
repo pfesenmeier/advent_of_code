@@ -1,17 +1,20 @@
-use day13::fold_instructions::{self, Fold, FoldInstructions};
 use day13::parser::input_parser;
-use day13::translucent_paper::TranslucentPaper;
 
 fn main() {
-    println!("{}", part_1("../input.txt"));
+    println!("{}", part_1("./src/input.txt"));
 }
 
-fn part_1(path: &str) -> u32 {
-    let (mut translucent_paper, fold_instructions) = input_parser(&std::fs::read_to_string(path).unwrap());
+fn part_1(path: &str) -> usize {
+    let (mut translucent_paper, fold_instructions) =
+        input_parser(&std::fs::read_to_string(path).unwrap());
 
-    for fold in fold_instructions.into_iter() {
-        translucent_paper.fold(fold);
-    }
+    // for fold in fold_instructions.into_iter() {
+    // translucent_paper.fold(fold);
+    // }
+
+    let fold = fold_instructions.into_iter().next().unwrap();
+
+    translucent_paper.fold(fold);
 
     translucent_paper.count_dots()
 }
@@ -22,6 +25,6 @@ mod tests {
 
     #[test]
     fn test_part_1() {
-        assert_eq!(part_1("sample_input.txt"), 17);
+        assert_eq!(part_1("./src/sample_input.txt"), 17);
     }
 }
