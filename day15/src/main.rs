@@ -26,7 +26,7 @@ mod part_1 {
 
 mod point {
     #[derive(PartialEq, Hash, Eq, Default, Debug)]
-    pub struct Point(pub usize,pub usize);
+    pub struct Point(pub usize, pub usize);
 }
 
 mod path {
@@ -83,15 +83,17 @@ mod map {
         pub fn new(input: &str) -> Self {
             let mut map = HashMap::new();
             for (i, line) in input.lines().enumerate() {
-              for (j, value) in line.chars().enumerate() {
-                  map.insert(Point(j, i), (value as u8).into());
-              }
+                for (j, value) in line.chars().enumerate() {
+                    map.insert(Point(j, i), (value as u8).into());
+                }
             }
             Self { map }
         }
 
         pub fn get_risk(&self, point: &Point) -> &usize {
-            self.map.get(point).expect("Called get_risk on point not returned by find_neighbors")
+            self.map
+                .get(point)
+                .expect("Called get_risk on point not returned by find_neighbors")
         }
 
         pub fn find_neighbors(&self, point: &Point) -> Option<Vec<Point>> {
