@@ -5,13 +5,11 @@ use itertools::{Itertools, MinMaxResult::MinMax};
 
 fn main() {
     let input = include_str!("input.txt");
-    // println!("{}", part_1(&input));
+    println!("{}", part_1(&input));
     println!("{}", part_2(&input));
 }
 
 fn part_2(input: &str) -> usize {
-    // make HashMap<(char,char), usize> of all tuples
-    // if match, upsert both new pairs, and decrement pair
     let (template, insertions) = input.split_once("\n\n").unwrap();
     let insertions = parse_insertions(insertions);
 
@@ -94,7 +92,6 @@ fn part_2(input: &str) -> usize {
     } else {
         0
     }
-    // answer is 3 off
 }
 
 fn part_1(input: &str) -> usize {
