@@ -70,20 +70,20 @@ fn part_2(input: &str) -> usize {
         let last_char = template.chars().into_iter().rev().next().unwrap();
         println!("First char is {}", first_char);
         println!("Last char is {}", last_char);
-            let mut min_adjustment = 0;
-            let mut max_adjustment = 0;
-            if **a == first_char {
-                min_adjustment += 1
-            }
-            if **a == last_char {
-                min_adjustment += 1
-            }
-            if **b == first_char {
-                max_adjustment += 1
-            }
-            if **b == last_char {
-                max_adjustment += 1
-            }
+        let mut min_adjustment = 0;
+        let mut max_adjustment = 0;
+        if **a == first_char {
+            min_adjustment += 1
+        }
+        if **a == last_char {
+            min_adjustment += 1
+        }
+        if **b == first_char {
+            max_adjustment += 1
+        }
+        if **b == last_char {
+            max_adjustment += 1
+        }
         let min = (min + min_adjustment) / 2;
         let max = (max + max_adjustment) / 2;
         println!("Min {} occurred {} times", a, min);
