@@ -95,9 +95,9 @@ impl TranslucentPaper {
         for y in 0..=max_y {
             for x in min_x..=max_x {
                 if self.dots.contains(&(x, y)) {
-                    display.push('#');
+                    display.push('%');
                 } else {
-                    display.push('.');
+                    display.push(' ');
                 }
             }
             display.push('\n');
