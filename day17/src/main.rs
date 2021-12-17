@@ -2,15 +2,54 @@ fn main() {
     let input_x = (179, 201);
     let input_y = (-109, -63);
     println!("{:?}", part_1(input_x, input_y));
+    println!("{:?}", part_2(input_x, input_y));
 }
 
-fn part_1((x_left, x_right): (isize, isize), (y_bottom, y_top): (isize, isize)) {
+fn part_1((x_left, x_right): (isize, isize), (y_bottom, y_top): (isize, isize)) -> isize {
     let launcher = probe_launcher::ProbeLauncher::new(x_left, x_right, y_top, y_bottom);
 
+    let mut max = 0;
     for x in 0..1000 {
-    for y in 0..1000 {
-       println!("landed: {}", launcher.launch(x, y));
+        for y in 0..1000 {
+            if launcher.launch(x, y) {
+                let flight_max = launcher.find_max(x, y);
+                if flight_max > max {
+                    max = flight_max;
+                }
+            }
         }
+    }
+
+    max
+}
+
+fn part_2((x_left, x_right): (isize, isize), (y_bottom, y_top): (isize, isize)) -> isize {
+    let launcher = probe_launcher::ProbeLauncher::new(x_left, x_right, y_top, y_bottom);
+
+    let mut possibilities = 0;
+    for x in -1000..1000 {
+        for y in -1000..1000 {
+            if launcher.launch(x, y) {
+                possibilities += 1;
+            }
+        }
+    }
+
+    possibilities
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn part_1_should_pass_on_sample_input() {
+        assert_eq!(part_1((20, 30), (-10, -5)), 45);
+    }
+
+    #[test]
+    fn part_2_should_pass_on_sample_input() {
+        assert_eq!(part_2((20, 30), (-10, -5)), 112);
     }
 }
 
@@ -71,11 +110,23 @@ mod probe_launcher {
         }
 
         pub fn launch(&self, x: isize, y: isize) -> bool {
-            let probe = Probe::new(x, y);
-            probe
+            Probe::new(x, y)
                 .into_iter()
                 .find_map(|(x, y)| self.get_landing(x, y))
                 .expect("infinite flight error")
+        }
+
+        pub fn find_max(&self, x: isize, y: isize) -> isize {
+            let mut flight = Probe::new(x, y).into_iter().peekable();
+
+            loop {
+                let cur_height = flight.next().unwrap().1;
+                let next_height = flight.peek().unwrap().1;
+
+                if cur_height > next_height {
+                    return cur_height;
+                }
+            }
         }
     }
 
@@ -165,29 +216,5 @@ mod probe {
                 }
             }
         }
-    }
-}
-
-// Probe: iterator that produces next step as Tuple
-// Target: detect if Tuple in into target
-/*
-*  for (x,y) in probe.into_iter() {
-*     if target.is_visible(x,y) {
-*        return true;
-*     }
-*
-*     if probe is above target
-*     if probe is below target ->
-*     - shoot straight until
-*  }
-* */
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn part_1_should_pass_on_sample_input() {
-        assert_eq!(part_1((20, 30), (-10, -5)), (6, 9));
     }
 }
