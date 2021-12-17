@@ -120,10 +120,10 @@ mod probe_launcher {
             let mut flight = Probe::new(x, y).into_iter().peekable();
 
             loop {
-                let cur_height = flight.next().unwrap().1;
-                let next_height = flight.peek().unwrap().1;
+                let (_, cur_height) = flight.next().unwrap();
+                let (_, next_height) = flight.peek().unwrap();
 
-                if cur_height > next_height {
+                if cur_height > *next_height {
                     return cur_height;
                 }
             }
