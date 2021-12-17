@@ -196,7 +196,7 @@ mod probe {
 
             self.velocity.y -= 1;
 
-            Some(Point::from(self.position.clone()))
+            Some(self.position.clone().into())
         }
     }
 
