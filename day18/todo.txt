@@ -1,0 +1,37 @@
+1. Parse tree
+- perhaps more flexible
+
+
+ [[[[[4,3],4],4],[7,[[8,4],9]]],[1,1]]
+
+
+ 4,3  4 4  
+Step 1. Parser
+
+rule digit
+rule pair
+  '[' + pair() / digit() + ',' + pair() / digit() ']'   
+
+struct Pair {
+  lhs: Box<Pair>,
+  rhs: Box<Pair>,
+}
+
+all snailfish numbers are Pairs
+not all pair members are Pairs
+
+struct snailfish_number {
+  lhs: Box<Expression>,
+  rhs: Box<Expression>,
+}
+
+enum Expression {
+  Digit,
+  Pair(Box<Expression>, Box<Expression>),
+}
+
+Pair has two digits
+Pair has two Pairs
+Pair has one digit and one Pair
+
+
