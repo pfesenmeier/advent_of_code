@@ -1,5 +1,5 @@
-use crate::snailfish_number::{Expression};
 use peg;
+use crate::snailfish_number::{Expression};
 
 pub fn parse_snailfish_number(number: &str) -> Expression {
     snailfish_number::parse(number).unwrap()
