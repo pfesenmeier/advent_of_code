@@ -1,15 +1,14 @@
 fn main() {
-    let input = "Player 1 starting position: 4
-Player 2 starting position: 8";
-    println!("{}", part_1(4, 8));
+    println!("{}", part_1(8, 6));
 }
 
-fn part_1(pos1: u32, pos2: u32) -> u32 {
+fn part_1(pos1: u32, pos2: u32) -> usize {
     let die = die::DeterministicDie::new();
     let mut board = game_board::GameBoard::new(die, pos1, pos2);
 
     loop {
         if let Some((losing_score, rolls)) = board.round() {
+            let losing_score: usize = losing_score.try_into().unwrap();
             return losing_score * rolls;
         }
     }
@@ -21,12 +20,12 @@ mod tests {
 
     #[test]
     fn part_1_should_pass_on_sample_input() {
-        assert_eq!(part_1(8, 6), 739785);
+        assert_eq!(part_1(4, 8), 739785);
     }
 }
 
 mod game_board {
-    use crate::die::{DeterministicDie, Die};
+    use crate::die::Die;
     use std::iter::Sum;
 
     pub struct Pawn {
@@ -51,7 +50,7 @@ mod game_board {
 
     pub struct GameBoard<T: Die + Iterator> {
         die: T,
-        rolls: u32,
+        rolls: usize,
         player1: (Pawn, u32),
         player2: (Pawn, u32),
         winning_score: u32,
@@ -63,7 +62,7 @@ mod game_board {
     {
         pub fn new(die: T, pos1: u32, pos2: u32) -> Self {
             Self {
-                die: die.iter_mut(),
+                die,
                 player1: (Pawn::new(), pos1),
                 player2: (Pawn::new(), pos2),
                 rolls: Default::default(),
@@ -79,34 +78,52 @@ mod game_board {
             modo
         }
 
-        pub fn round(&mut self) -> Option<(u32, u32)> {
+        pub fn round(&mut self) -> Option<(u32, usize)> {
+            let die = self.die.by_ref();
+            let rolls_per_turn = 3;
 
-            let roll1 = GameBoard::<T>::calculate_location(self.player1.1, die.take(3).sum());
-            dbg!(roll1);
-            self.player1.0.add_total(roll1);
-            self.player1.1 = roll1;
-            self.rolls += 3;
-            if self.player1.0.get_score() >= self.winning_score {
-                return Some((self.player2.0.get_score(), self.rolls));
+            {
+                let roll1 = die.take(rolls_per_turn).sum();
+                self.rolls += rolls_per_turn;
+
+                let roll1 = GameBoard::<T>::calculate_location(self.player1.1, roll1);
+                self.player1.0.add_total(roll1);
+                self.player1.1 = roll1;
+
+                if self.player1.0.get_score() >= self.winning_score {
+                    return Some((self.player2.0.get_score(), self.rolls));
+                }
             }
+            {
+                let roll2 = die.take(rolls_per_turn).sum();
+                self.rolls += rolls_per_turn;
 
-            let roll2 = GameBoard::<T>::calculate_location(self.player2.1, die.take(3).sum());
-            dbg!(roll2);
-            self.player2.0.add_total(roll2);
-            self.player2.1 = roll2;
-            self.rolls += 3;
-            if self.player2.0.get_score() >= self.winning_score {
-                return Some((self.player1.0.get_score(), self.rolls));
+                let roll2 = GameBoard::<T>::calculate_location(self.player2.1, roll2);
+                self.player2.0.add_total(roll2);
+                self.player2.1 = roll2;
+                if self.player2.0.get_score() >= self.winning_score {
+                    return Some((self.player1.0.get_score(), self.rolls));
+                }
             }
 
             None
         }
     }
 
-    #[test]
-    fn modulos() {
-        assert_eq!(GameBoard::<DeterministicDie>::calculate_location(4, 6), 10);
-        assert_eq!(GameBoard::<DeterministicDie>::calculate_location(8, 15), 3);
+    #[cfg(test)]
+    mod tests {
+        use super::*;
+        use crate::die::DeterministicDie;
+
+        #[test]
+        fn modulos() {
+            assert_eq!(GameBoard::<DeterministicDie>::calculate_location(4, 6), 10);
+            assert_eq!(GameBoard::<DeterministicDie>::calculate_location(8, 15), 3);
+            assert_eq!(GameBoard::<DeterministicDie>::calculate_location(10, 1), 1);
+            assert_eq!(GameBoard::<DeterministicDie>::calculate_location(20, 4), 4);
+            assert_eq!(GameBoard::<DeterministicDie>::calculate_location(0, 4), 4);
+            assert_eq!(GameBoard::<DeterministicDie>::calculate_location(29, 2), 1);
+        }
     }
 }
 
@@ -129,7 +146,11 @@ mod die {
     impl Die for DeterministicDie {
         fn roll(&mut self) -> u32 {
             let result = self.next_roll;
-            self.next_roll = self.next_roll % 100 + 1;
+
+            self.next_roll += 1;
+            if self.next_roll == 101 {
+                self.next_roll = 1;
+            }
 
             result
         }
