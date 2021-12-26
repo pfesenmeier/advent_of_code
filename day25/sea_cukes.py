@@ -4,7 +4,7 @@ class SeaCucumberHerd:
         self.num_lines = len(self.lines)
         self.line_len = len(self.lines[0])
 
-    def to_string(self):
+    def __str__(self):
         return '\n'.join(self.lines)
     
     def get_value(self, x, y):
@@ -28,7 +28,7 @@ class SeaCucumberHerd:
 
     def move(self):
         self.move_east()
-        # self.move_south()
+        self.move_south()
     
     def move_east(self):
         lines = []
@@ -48,7 +48,43 @@ class SeaCucumberHerd:
                     line += '>'
                 else: 
                     line += value
-
             lines.append(line)
+        self.lines = lines
 
+    def get_next_y_value(self, x, y):
+        next_index = y + 1 
+
+        if next_index == self.num_lines:
+            next_index = 0
+
+        return self.get_value(x, next_index)
+        
+    def get_previous_y_value(self, x, y):
+        previous_index = y - 1
+
+        if previous_index == -1:
+            previous_index = self.num_lines - 1
+
+        return self.get_value(x, previous_index)
+
+
+    def move_south(self):
+        lines = []
+
+        for y in range(self.num_lines):
+            line = ''
+            for x in range(self.line_len):
+                value = self.get_value(x, y)
+                next_value = self.get_next_y_value(x, y)
+                last_value = self.get_previous_y_value(x, y)
+
+                if value == 'v' and next_value == '.':
+                    line += '.'
+                elif value == 'v' and next_value != '.':
+                    line += 'v'
+                elif value == '.' and last_value == 'v':
+                    line += 'v'
+                else: 
+                    line += value
+            lines.append(line)
         self.lines = lines

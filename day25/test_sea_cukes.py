@@ -19,16 +19,16 @@ def test_to_string():
 ..>"""
     herd = SeaCucumberHerd(input)
 
-    assert input == herd.to_string()
+    assert input == str(herd)
 
 
 def test_oneline_input_move_eastward():
     herd = SeaCucumberHerd("...>>>>>...")
 
     herd.move()
-    second_state = herd.to_string()
+    second_state = str(herd)
     herd.move()
-    third_state = herd.to_string()
+    third_state = str(herd)
 
     assert second_state == "...>>>>.>.."
     assert third_state == "...>>>.>.>."
@@ -44,7 +44,7 @@ def test_multiline_input_move_eastward():
     herd.move()
 
     assert (
-        herd.to_string()
+        str(herd)
         == """.>.
 ..>
 >.."""
@@ -62,7 +62,7 @@ def test_multiline_multidirection_simple():
     herd.move()
 
     assert (
-        herd.to_string()
+        str(herd)
         == """..........
 .>........
 ..v....v>.
@@ -113,10 +113,10 @@ v.v..>>v..
 
         herd = SeaCucumberHerd(input)
 
-        assert herd.to_string() == initial_state
+        assert str(herd) == initial_state
         herd.move()
-        assert herd.to_string() == first_result
+        assert str(herd) == first_result
         herd.move()
-        assert herd.to_string() == second_result
+        assert str(herd) == second_result
         herd.move()
-        assert herd.to_string() == third_result
+        assert str(herd) == third_result
