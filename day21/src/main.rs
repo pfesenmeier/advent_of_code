@@ -1,3 +1,12 @@
+// Universe struct?
+// totals of who won (no final scores needed)
+// one game, many universes
+// create die for every combination of a bajillion rounds
+// what is the maximum rolls of a round of 1,2,3?
+// -- lowest score is 1. So 3*21 = 62 rounds.
+// how to create die that can simulate every possibility?
+// 3^62
+
 fn main() {
     println!("{}", part_1(8, 6));
 }
