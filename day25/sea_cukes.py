@@ -1,13 +1,28 @@
 class SeaCucumberHerd:
+    # input is a list of rows
+    # input is '..>\n..v\n<<<'
     def __init__(self, input):
-        self.input = input
+        self.rows = input.split('\n')
+        self.num_rows = len(self.rows)
+        self.len_row = len(self.rows[0])
 
     def get_cukes(self):
-        return self.input
+        return '\n'.join(self.rows)
+    
+    def get_value(self, x, y):
+        return self.rows[y][x]
+
+    def get_next_x_value(self, x, y):
+        next_x_index = self.get_next_x_index(x)
+        return self.get_value(next_x_index, y)
+        
+    def get_previous_x_value(self, x, y):
+        previous_x_index = self.get_previous_x_index(x)
+        return self.get_value(previous_x_index, y)
 
     def get_next_x_index(self, i):
         next_index = i + 1
-        if next_index == len(self.input):
+        if next_index == self.len_row:
             next_index = 0
 
         return next_index
@@ -15,32 +30,37 @@ class SeaCucumberHerd:
     def get_previous_x_index(self, i):
         last_index = i - 1
         if last_index == -1:
-            last_index = len(self.input) - 1
+            last_index = self.len_row - 1
         
         return last_index
-    
     def move(self):
-        result = ''
+        self.move_east()
+        # self.move_south()
+    
+    def move_east(self):
+        result = []
 
-        for i in range(len(input)):
-        # while i < max_x:
-            value = self.input[i]
-            next_index = self.get_next_x_index(i)
-            last_index = self.get_previous_x_index(i)
+        for y in range(self.num_rows):
+            for x in range(self.len_row):
+                row = ''
 
-            next_value = self.input[next_index]
-            last_value = self.input[last_index]
+                value = self.get_value(x, y)
 
-            if value == '>' and next_value == '.':
-                result += '.'
-            elif value == '>' and next_value == '>':
-                result += '>'
-            elif value == '.' and last_value == '>':
-                result += '>'
-            else: 
-                result += value
+                next_value = self.get_next_x_value(x, y)
+                last_value = self.get_previous_x_value(x, y)
 
-        self.input = result
+                if value == '>' and next_value == '.':
+                    row += '.'
+                elif value == '>' and next_value == '>':
+                    row += '>'
+                elif value == '.' and last_value == '>':
+                    row += '>'
+                else: 
+                    row += value
+
+                result.append(row)
+
+        self.rows = result
 
 ####################
 
