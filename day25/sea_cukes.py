@@ -3,8 +3,8 @@ class SeaCucumberHerd:
     # input is '..>\n..v\n<<<'
     def __init__(self, input):
         self.rows = input.split('\n')
-        self.num_rows = len(self.rows)
-        self.len_row = len(self.rows[0])
+        self.num_lines = len(self.rows)
+        self.line_len = len(self.rows[0])
 
     def to_string(self):
         return '\n'.join(self.rows)
@@ -13,26 +13,21 @@ class SeaCucumberHerd:
         return self.rows[y][x]
 
     def get_next_x_value(self, x, y):
-        next_x_index = self.get_next_x_index(x)
-        return self.get_value(next_x_index, y)
-        
-    def get_previous_x_value(self, x, y):
-        previous_x_index = self.get_previous_x_index(x)
-        return self.get_value(previous_x_index, y)
+        next_index = x + 1
 
-    def get_next_x_index(self, i):
-        next_index = i + 1
-        if next_index == self.len_row:
+        if next_index == self.line_len:
             next_index = 0
 
-        return next_index
-
-    def get_previous_x_index(self, i):
-        last_index = i - 1
-        if last_index == -1:
-            last_index = self.len_row - 1
+        return self.get_value(next_index, y)
         
-        return last_index
+    def get_previous_x_value(self, x, y):
+        previous_index = x - 1
+
+        if previous_index == -1:
+            previous_index = self.line_len - 1
+
+        return self.get_value(previous_index, y)
+
     def move(self):
         self.move_east()
         # self.move_south()
@@ -40,9 +35,9 @@ class SeaCucumberHerd:
     def move_east(self):
         result = []
 
-        for y in range(self.num_rows):
+        for y in range(self.num_lines):
             row = ''
-            for x in range(self.len_row):
+            for x in range(self.line_len):
 
                 value = self.get_value(x, y)
 
@@ -71,9 +66,10 @@ expected_third_state = '...>>>.>.>.'
 herd = SeaCucumberHerd(input)
 
 herd.move()
-second_state = herd.get_cukes()
+second_state = herd.to_string()
 herd.move()
-third_state = herd.get_cukes()
+third_state = herd.to_string()
+
 print('expected 2nd:', expected_second_state)
 print('actual 2nd:', second_state)
 print('expected 3rd:', expected_third_state)
