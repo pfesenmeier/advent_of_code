@@ -1,12 +1,22 @@
 from sea_cukes import SeaCucumberHerd
 
-def test_get():
+def test_get_value():
     # ..>
     # v..
     # ..>
-    input = "..>\nv..\n..>"
-    herd = SeaCucumberHerd(input.split('\n'))
+    herd = SeaCucumberHerd("..>\nv..\n..>")
 
-    assert herd.get(2,0) == '>'
-    assert herd.get(0,1) == 'v'
-    assert herd.get(2,2) == '>'
+    assert herd.get_value(2,0) == '>'
+    assert herd.get_value(0,1) == 'v'
+    assert herd.get_value(2,2) == '>'
+
+def test_oneline_input_move_eastward():
+    herd = SeaCucumberHerd('...>>>>>...')
+
+    herd.move()
+    second_state = herd.to_string()
+    herd.move()
+    third_state = herd.to_string()
+
+    assert second_state == '...>>>>.>..'
+    assert third_state == '...>>>.>.>.'
