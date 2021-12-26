@@ -8,8 +8,20 @@ from sea_cukes import SeaCucumberHerd
 
 
 def part_1(input):
-    return "TODO"
+    herd = SeaCucumberHerd(input)
 
+    steps = 0
+    last_herd = str(herd)
+    herd.move()
+    steps += 1
+
+    while str(herd) != last_herd:
+        last_herd = str(herd) 
+        herd.move()
+        steps += 1
+    
+    return steps
+   
 
 if __name__ == "__main__":
     with open("input.txt") as input:
