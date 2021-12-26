@@ -6,7 +6,7 @@ class SeaCucumberHerd:
         self.num_rows = len(self.rows)
         self.len_row = len(self.rows[0])
 
-    def get_cukes(self):
+    def to_string(self):
         return '\n'.join(self.rows)
     
     def get_value(self, x, y):
@@ -41,8 +41,8 @@ class SeaCucumberHerd:
         result = []
 
         for y in range(self.num_rows):
+            row = ''
             for x in range(self.len_row):
-                row = ''
 
                 value = self.get_value(x, y)
 
@@ -58,7 +58,7 @@ class SeaCucumberHerd:
                 else: 
                     row += value
 
-                result.append(row)
+            result.append(row)
 
         self.rows = result
 
