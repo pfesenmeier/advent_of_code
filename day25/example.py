@@ -1,18 +1,14 @@
 from sea_cukes import SeaCucumberHerd
 from time import *
 
-input = """>.>.
->>..
-..>.
-...>"""
-herd = SeaCucumberHerd(input)
 
+with open('sample_input.txt') as input:
+    input = input.read()
 
-steps = 0
-print(herd)
-while steps < 10:
-    herd.move()
-    print('')
-    print(herd)
-    sleep(1)
-    steps += 1
+    herd = SeaCucumberHerd(input)
+
+    while True:
+        herd.move()
+        print('')
+        print(herd)
+        sleep(1)
